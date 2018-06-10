@@ -1,2 +1,5 @@
 BasedOnStyle: Google
 Language: Cpp
+
+BinPackArguments: false
+BinPackParameters: false
