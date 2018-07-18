@@ -1,5 +1,8 @@
 #pragma once
 
+#include <mbed.h>
+#include <mbed_events.h>
+
 #include "hw/display.h"
 #include "hw/recorder.h"
 #include "hw/volatile_buffer.h"
@@ -10,12 +13,11 @@ namespace app {
 
 class Application {
  private:
+  EventQueue event_queue;
+
   app::debug::Debug &dbg;
 
   float32_t powers[480] = {0};
-
-  bool processing_job_ready = false;
-  bool render_job_ready = false;
 
   void ProcessingJob();
   void RenderJob();
@@ -33,7 +35,7 @@ class Application {
               app::hw::Recorder &recorder,
               app::ui::Waterfall &waterfall);
   int Init();
-  void Loop();
+  void Run();
 
   void HandleAudioInHalfTransferComplete();
 

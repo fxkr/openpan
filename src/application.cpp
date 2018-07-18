@@ -2,6 +2,7 @@
 #include <arm_math.h>
 
 #include <mbed.h>
+#include <mbed_events.h>
 
 #include "Drivers/BSP/STM32746G-Discovery/stm32746g_discovery_lcd.h"
 
@@ -41,31 +42,21 @@ Application::Application(app::debug::Debug &dbg,
                          app::ui::Painter &canvas,
                          app::hw::Recorder &recorder,
                          app::ui::Waterfall &waterfall)
-    : dbg(dbg),
+    : event_queue(32 * EVENTS_EVENT_SIZE),
+      dbg(dbg),
       display(display),
       canvas(canvas),
       recorder(recorder),
       waterfall(waterfall) {}
 
 int Application::Init() {
-  render_job_ready = true;
+  event_queue.call(this, &Application::RenderJob);
   return 0;
 }
 
-void Application::Loop() {
-  if (processing_job_ready) {
-    processing_job_ready = false;
-    ProcessingJob();
-  }
-  if (render_job_ready) {
-    render_job_ready = false;
-    RenderJob();
-  }
-}
+void Application::Run() { event_queue.dispatch_forever(); }
 
 void Application::ProcessingJob() {
-  processing_job_ready = true;
-
   app::structs::Complex<float32_t> *sig_buffer = recorder.Tick();
   if (!sig_buffer) {
     return;
@@ -103,7 +94,7 @@ void Application::ProcessingJob() {
     waterfall.Set(i, color);
   }
 
-  render_job_ready = true;
+  event_queue.call(this, &Application::RenderJob);
 }
 
 void Application::RenderJob() {
@@ -164,12 +155,12 @@ void Application::RenderJob() {
 
 void Application::HandleAudioInHalfTransferComplete() {
   recorder.HandleHalfTransferComplete();
-  processing_job_ready = true;
+  event_queue.call(this, &Application::ProcessingJob);
 }
 
 void Application::HandleAudioInTransferComplete() {
   recorder.HandleTransferComplete();
-  processing_job_ready = true;
+  event_queue.call(this, &Application::ProcessingJob);
 }
 
 void Application::HandleAudioInError() { recorder.HandleAudioInError(); }

@@ -94,9 +94,7 @@ int main() {
   dbg.printf("Init complete.\n");
 
   global_app = &application;
-  while (true) {
-    application.Loop();
-  }
+  application.Run();
 }
 
 extern "C" void HardFault_Handler(void) {
