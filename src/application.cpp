@@ -39,7 +39,7 @@ static unsigned int ui_shift = total_shift - waterfall_shift;
 
 Application::Application(app::debug::Debug &dbg,
                          app::hw::Display &display,
-                         app::ui::Painter &canvas,
+                         app::ui::Canvas &canvas,
                          app::hw::Recorder &recorder,
                          app::ui::Waterfall &waterfall)
     : event_queue(32 * EVENTS_EVENT_SIZE),
@@ -98,7 +98,7 @@ void Application::ProcessingJob() {
 }
 
 void Application::RenderJob() {
-  app::ui::Painter &p = canvas;
+  app::ui::Canvas &p = canvas;
 
   // Background
   waterfall.Render(display.GetBackground());

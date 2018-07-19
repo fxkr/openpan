@@ -5,7 +5,7 @@
 
 namespace app::ui {
 
-class Painter {
+class Canvas {
  private:
   unsigned int size_x;
   unsigned int size_y;
@@ -14,7 +14,7 @@ class Painter {
   volatile uint32_t *buffer_data = nullptr;
 
  public:
-  Painter(unsigned int size_x, unsigned int size_y);
+  Canvas(unsigned int size_x, unsigned int size_y);
   void SetBuffer(app::hw::VolatileBuffer<uint32_t> &buffer);
 
   inline void DrawPixel(int x, int y, uint32_t color);
@@ -24,12 +24,12 @@ class Painter {
   inline unsigned int SizeY();
 };
 
-inline void Painter::DrawPixel(int x, int y, uint32_t color) {
+inline void Canvas::DrawPixel(int x, int y, uint32_t color) {
   buffer_data[y * size_x + x] = color;
 }
 
-inline unsigned int Painter::SizeX() { return size_x; }
+inline unsigned int Canvas::SizeX() { return size_x; }
 
-inline unsigned int Painter::SizeY() { return size_y; }
+inline unsigned int Canvas::SizeY() { return size_y; }
 
 }  // namespace app::ui

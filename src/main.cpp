@@ -70,7 +70,7 @@ int main() {
       dbg, layer0, layer1, copy_dma, ltdc_underrun_counter);
   app::hw::Recorder recorder(
       dbg, audio_buf, missed_audio_counter, late_audio_read_counter);
-  app::ui::Painter canvas(480, 272);
+  app::ui::Canvas canvas(480, 272);
   app::Application application(dbg, display, canvas, recorder, waterfall);
 
   crash_if(dbg, 0 != copy_dma.Init());
