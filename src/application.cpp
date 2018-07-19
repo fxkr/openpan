@@ -98,7 +98,7 @@ void Application::ProcessingJob() {
 }
 
 void Application::RenderJob() {
-  app::ui::Canvas &p = canvas;
+  app::ui::Canvas &cv = canvas;
 
   // Background
   waterfall.Render(display.GetBackground());
@@ -108,48 +108,48 @@ void Application::RenderJob() {
 
   // Foreground: grid
   const uint32_t grid_color = 0xFF333333;
-  for (unsigned int y = 0; y < p.SizeY(); y++) {
+  for (unsigned int y = 0; y < cv.SizeY(); y++) {
     if (y % 6 < 3) {
       continue;
     }
-    p.DrawPixel(27 + ui_shift, y, grid_color);   // -20kHz
-    p.DrawPixel(80 + ui_shift, y, grid_color);   // -15kHz
-    p.DrawPixel(133 + ui_shift, y, grid_color);  // -10kHz
-    p.DrawPixel(187 + ui_shift, y, grid_color);  // -5kHz
-    p.DrawPixel(239 + ui_shift, y, grid_color);  // Center
-    p.DrawPixel(240 + ui_shift, y, grid_color);  // Center
-    p.DrawPixel(293 + ui_shift, y, grid_color);  // +5kHz
-    p.DrawPixel(347 + ui_shift, y, grid_color);  // +10kHz
+    cv.DrawPixel(27 + ui_shift, y, grid_color);   // -20kHz
+    cv.DrawPixel(80 + ui_shift, y, grid_color);   // -15kHz
+    cv.DrawPixel(133 + ui_shift, y, grid_color);  // -10kHz
+    cv.DrawPixel(187 + ui_shift, y, grid_color);  // -5kHz
+    cv.DrawPixel(239 + ui_shift, y, grid_color);  // Center
+    cv.DrawPixel(240 + ui_shift, y, grid_color);  // Center
+    cv.DrawPixel(293 + ui_shift, y, grid_color);  // +5kHz
+    cv.DrawPixel(347 + ui_shift, y, grid_color);  // +10kHz
   }
 
   // Foreground: color key
   for (unsigned int x = 0; x < 8; x++) {
-    p.DrawPixel(x, 0, 0xFFFFFFFF);
+    cv.DrawPixel(x, 0, 0xFFFFFFFF);
     for (unsigned int y = 0; y < 256; y++) {
-      p.DrawPixel(x, y, app::data::GRADIENT[255 - y]);
+      cv.DrawPixel(x, y, app::data::GRADIENT[255 - y]);
     }
-    for (unsigned int y = 256; y < p.SizeY(); y++) {
-      p.DrawPixel(x, y, 0xFF000000);
+    for (unsigned int y = 256; y < cv.SizeY(); y++) {
+      cv.DrawPixel(x, y, 0xFF000000);
     }
   }
 
   // Foreground: menu bar
   const uint32_t menu_bg_color = 0xFF000000;
-  for (unsigned int x = 0; x < p.SizeX(); x++) {
-    for (unsigned int y = p.SizeY() - 14; y < p.SizeY(); y++) {
-      p.DrawPixel(x, y, 0xFF000000);
+  for (unsigned int x = 0; x < cv.SizeX(); x++) {
+    for (unsigned int y = cv.SizeY() - 14; y < cv.SizeY(); y++) {
+      cv.DrawPixel(x, y, 0xFF000000);
     }
   }
 
   // Foreground: menu bar, scale
   const uint32_t menu_text_color = 0xFFFFFFFF;
-  p.DrawText(27 - 10 + ui_shift, 260, menu_text_color, menu_bg_color, "-20");
-  p.DrawText(80 - 10 + ui_shift, 260, menu_text_color, menu_bg_color, "-15");
-  p.DrawText(133 - 10 + ui_shift, 260, menu_text_color, menu_bg_color, "-10");
-  p.DrawText(187 - 7 + ui_shift, 260, menu_text_color, menu_bg_color, "-5");
-  p.DrawText(240 - 3 + ui_shift, 260, menu_text_color, menu_bg_color, "0");
-  p.DrawText(293 - 7 + ui_shift, 260, menu_text_color, menu_bg_color, "+5");
-  p.DrawText(347 - 10 + ui_shift, 260, menu_text_color, menu_bg_color, "+10");
+  cv.DrawText(27 - 10 + ui_shift, 260, menu_text_color, menu_bg_color, "-20");
+  cv.DrawText(80 - 10 + ui_shift, 260, menu_text_color, menu_bg_color, "-15");
+  cv.DrawText(133 - 10 + ui_shift, 260, menu_text_color, menu_bg_color, "-10");
+  cv.DrawText(187 - 7 + ui_shift, 260, menu_text_color, menu_bg_color, "-5");
+  cv.DrawText(240 - 3 + ui_shift, 260, menu_text_color, menu_bg_color, "0");
+  cv.DrawText(293 - 7 + ui_shift, 260, menu_text_color, menu_bg_color, "+5");
+  cv.DrawText(347 - 10 + ui_shift, 260, menu_text_color, menu_bg_color, "+10");
   display.Flip();
 }
 
