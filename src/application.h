@@ -14,13 +14,18 @@ namespace app {
 class Application {
  private:
   EventQueue event_queue;
+  EventFlags event_flags;
+  Thread process_audio_thread;
+  Thread render_thread;
 
   app::debug::Debug &dbg;
 
   float32_t powers[480] = {0};
 
-  void ProcessingJob();
-  void RenderJob();
+  void ProcessAudioThread();
+  void ProcessAudio();
+  void RenderThread();
+  void Render();
 
  public:
   app::hw::Display &display;

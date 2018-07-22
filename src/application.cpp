@@ -37,6 +37,11 @@ static unsigned int total_shift = 85;  // 8kHz/48kHz / 512 samples, result in px
 static unsigned int waterfall_shift = 16;  // Can only shift within 512 samples
 static unsigned int ui_shift = total_shift - waterfall_shift;
 
+enum ApplicationEventFlags {
+  WakeupProcessAudioThread = 0x01,
+  WakeupRenderThread = 0x02,
+};
+
 Application::Application(
     app::debug::Debug &dbg,
     app::hw::Display &display,
@@ -44,23 +49,35 @@ Application::Application(
     app::hw::Recorder &recorder,
     app::ui::Waterfall &waterfall)
     : event_queue(32 * EVENTS_EVENT_SIZE),
+      event_flags(),
+      process_audio_thread(osPriorityHigh),
+      render_thread(osPriorityAboveNormal),
       dbg(dbg),
       display(display),
       canvas(canvas),
       recorder(recorder),
       waterfall(waterfall) {}
 
-int Application::Init() {
-  event_queue.call(this, &Application::RenderJob);
-  return 0;
+int Application::Init() { return 0; }
+
+void Application::Run() {
+  process_audio_thread.start(callback(this, &Application::ProcessAudioThread));
+  render_thread.start(callback(this, &Application::RenderThread));
+  event_flags.set(ApplicationEventFlags::WakeupRenderThread);
+  event_queue.dispatch_forever();
 }
 
-void Application::Run() { event_queue.dispatch_forever(); }
+void Application::ProcessAudioThread() {
+  while (true) {
+    event_flags.wait_all(ApplicationEventFlags::WakeupProcessAudioThread);
+    ProcessAudio();
+  }
+}
 
-void Application::ProcessingJob() {
+void Application::ProcessAudio() {
   app::structs::Complex<float32_t> *sig_buffer = recorder.Read();
   if (!sig_buffer) {
-    return;
+    return;  // Should never happen
   }
 
   const arm_cfft_instance_f32 *fft_instance = &arm_cfft_sR_f32_len512;
@@ -95,10 +112,17 @@ void Application::ProcessingJob() {
     waterfall.Set(i, color);
   }
 
-  event_queue.call(this, &Application::RenderJob);
+  event_flags.set(ApplicationEventFlags::WakeupRenderThread);
 }
 
-void Application::RenderJob() {
+void Application::RenderThread() {
+  while (true) {
+    event_flags.wait_all(ApplicationEventFlags::WakeupRenderThread);
+    Render();
+  }
+}
+
+void Application::Render() {
   app::ui::Canvas &cv = canvas;
 
   // Background
@@ -156,12 +180,12 @@ void Application::RenderJob() {
 
 void Application::HandleAudioInHalfTransferComplete() {
   recorder.HandleHalfTransferComplete();
-  event_queue.call(this, &Application::ProcessingJob);
+  event_flags.set(ApplicationEventFlags::WakeupProcessAudioThread);
 }
 
 void Application::HandleAudioInTransferComplete() {
   recorder.HandleTransferComplete();
-  event_queue.call(this, &Application::ProcessingJob);
+  event_flags.set(ApplicationEventFlags::WakeupProcessAudioThread);
 }
 
 void Application::HandleAudioInError() { recorder.HandleAudioInError(); }
