@@ -95,13 +95,6 @@ int main() {
   application.Run();
 }
 
-extern "C" void HardFault_Handler(void) {
-  if (global_dbg) {
-    app::debug::Debug &dbg = *global_dbg;
-    crash(dbg);
-  }
-}
-
 extern "C" void LTDC_IRQHandler(void) {
   if (global_app) {
     global_app->HandleLtdcIRQ();
