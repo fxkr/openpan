@@ -40,7 +40,7 @@ class Recorder {
 
   int Init();
 
-  app::structs::Complex<float32_t> *Tick();
+  app::structs::Complex<float32_t> *Read();
 
   void HandleAudioInError();
   void HandleHalfTransferComplete();

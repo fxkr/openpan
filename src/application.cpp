@@ -58,7 +58,7 @@ int Application::Init() {
 void Application::Run() { event_queue.dispatch_forever(); }
 
 void Application::ProcessingJob() {
-  app::structs::Complex<float32_t> *sig_buffer = recorder.Tick();
+  app::structs::Complex<float32_t> *sig_buffer = recorder.Read();
   if (!sig_buffer) {
     return;
   }

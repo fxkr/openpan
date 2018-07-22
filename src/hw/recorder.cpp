@@ -49,7 +49,7 @@ int Recorder::Init() {
   return 0;
 }
 
-app::structs::Complex<float32_t> *Recorder::Tick() {
+app::structs::Complex<float32_t> *Recorder::Read() {
   // Atomically read state and clear both bits
   uint32_t bit = __sync_fetch_and_and(&dma_state, ~BOTH_HALF_READABLE_BITS);
 
