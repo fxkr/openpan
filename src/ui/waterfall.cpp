@@ -2,10 +2,11 @@
 
 namespace app::ui {
 
-Waterfall::Waterfall(app::hw::VolatileBuffer<uint8_t> &buffer,
-                     app::hw::CopyDMA &copy_dma,
-                     unsigned int size_x,
-                     unsigned int size_y)
+Waterfall::Waterfall(
+    app::hw::VolatileBuffer<uint8_t> &buffer,
+    app::hw::CopyDMA &copy_dma,
+    unsigned int size_x,
+    unsigned int size_y)
     : buffer(buffer), copy_dma(copy_dma), size_x(size_x), size_y(size_y) {}
 
 int Waterfall::Render(app::hw::VolatileBuffer<uint8_t> &output) {
@@ -18,10 +19,11 @@ int Waterfall::Render(app::hw::VolatileBuffer<uint8_t> &output) {
   return 0;
 }
 
-int Waterfall::CopyLines(app::hw::VolatileBuffer<uint8_t> &output,
-                         int src_line,
-                         int dst_line,
-                         int num_lines) {
+int Waterfall::CopyLines(
+    app::hw::VolatileBuffer<uint8_t> &output,
+    int src_line,
+    int dst_line,
+    int num_lines) {
   if (num_lines <= 0) return 0;
 
   uint32_t src_buf_addr = (uint32_t)buffer.Data();

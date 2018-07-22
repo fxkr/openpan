@@ -34,9 +34,8 @@ int CopyDMA::Init() {
   return 0;
 }
 
-int CopyDMA::CopyWordsUnsafe(uint32_t src_addr,
-                             uint32_t dst_addr,
-                             uint32_t num_words) {
+int CopyDMA::CopyWordsUnsafe(
+    uint32_t src_addr, uint32_t dst_addr, uint32_t num_words) {
   // DMA can process only up to 0xFFFF words.
   // Our DMA bursts have 4 word size.
   // (=> num_words must be multiple of 4!)
@@ -62,9 +61,8 @@ int CopyDMA::CopyWordsUnsafe(uint32_t src_addr,
   return 0;
 }
 
-int CopyDMA::CopyMax65kWordsUnsafe(uint32_t src_addr,
-                                   uint32_t dst_addr,
-                                   uint32_t num_words) {
+int CopyDMA::CopyMax65kWordsUnsafe(
+    uint32_t src_addr, uint32_t dst_addr, uint32_t num_words) {
   if (HAL_OK != HAL_DMA_Start(&handle, src_addr, dst_addr, num_words)) {
     return 1;
   }

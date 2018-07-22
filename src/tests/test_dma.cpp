@@ -50,9 +50,10 @@ void test_copy_dma(app::debug::Debug& dbg) {
   // Zero it
   CopyDMA copy_dma;
   crash_if(dbg, 0 != copy_dma.Init());
-  crash_if(dbg,
-           0 != copy_dma.CopyWordsUnsafe(
-                    src_area_addr, dst_area_addr, dma_test_area_words));
+  crash_if(
+      dbg,
+      0 != copy_dma.CopyWordsUnsafe(
+               src_area_addr, dst_area_addr, dma_test_area_words));
 
   // Assert everything within bounds is copied, everything outside is untouched
   for (uint32_t i = 0; i < dma_test_area_words; i++) {
@@ -89,8 +90,8 @@ void test_zero_dma(app::debug::Debug& dbg) {
   // Zero it
   ZeroDMA zero_dma;
   crash_if(dbg, 0 != zero_dma.Init());
-  crash_if(dbg,
-           0 != zero_dma.ZeroWordsUnsafe(zero_area_addr, dma_test_area_words));
+  crash_if(
+      dbg, 0 != zero_dma.ZeroWordsUnsafe(zero_area_addr, dma_test_area_words));
 
   // Assert everything within bounds is zeroed, everything outside is not
   for (uint32_t i = 0; i < dma_test_area_words; i++) {

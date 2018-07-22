@@ -18,10 +18,11 @@ static const uint32_t UPPER_HALF_READABLE_BIT = 1 << 1;
 static const uint32_t BOTH_HALF_READABLE_BITS =
     LOWER_HALF_READABLE_BIT | UPPER_HALF_READABLE_BIT;
 
-Recorder::Recorder(app::debug::Debug &dbg,
-                   VolatileBuffer<app::structs::Complex<int16_t>> &audio_buf,
-                   app::debug::Counter &missed_audio_counter,
-                   app::debug::Counter &late_audio_read_counter)
+Recorder::Recorder(
+    app::debug::Debug &dbg,
+    VolatileBuffer<app::structs::Complex<int16_t>> &audio_buf,
+    app::debug::Counter &missed_audio_counter,
+    app::debug::Counter &late_audio_read_counter)
     : dbg(dbg),
       buffer(audio_buf),
       lower_half_buffer(audio_buf.LowerHalf()),
@@ -39,8 +40,9 @@ int Recorder::Init() {
     return 1;
   }
 
-  if (AUDIO_OK != BSP_AUDIO_IN_Record((uint16_t *)buffer.addr,
-                                      dma_double_buffer_num_halfwords)) {
+  if (AUDIO_OK !=
+      BSP_AUDIO_IN_Record(
+          (uint16_t *)buffer.addr, dma_double_buffer_num_halfwords)) {
     return 1;
   }
 

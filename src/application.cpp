@@ -37,11 +37,12 @@ static unsigned int total_shift = 85;  // 8kHz/48kHz / 512 samples, result in px
 static unsigned int waterfall_shift = 16;  // Can only shift within 512 samples
 static unsigned int ui_shift = total_shift - waterfall_shift;
 
-Application::Application(app::debug::Debug &dbg,
-                         app::hw::Display &display,
-                         app::ui::Canvas &canvas,
-                         app::hw::Recorder &recorder,
-                         app::ui::Waterfall &waterfall)
+Application::Application(
+    app::debug::Debug &dbg,
+    app::hw::Display &display,
+    app::ui::Canvas &canvas,
+    app::hw::Recorder &recorder,
+    app::ui::Waterfall &waterfall)
     : event_queue(32 * EVENTS_EVENT_SIZE),
       dbg(dbg),
       display(display),

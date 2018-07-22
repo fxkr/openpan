@@ -29,11 +29,12 @@ class Application {
 
   app::ui::Waterfall &waterfall;
 
-  Application(app::debug::Debug &dbg,
-              app::hw::Display &display,
-              app::ui::Canvas &canvas,
-              app::hw::Recorder &recorder,
-              app::ui::Waterfall &waterfall);
+  Application(
+      app::debug::Debug &dbg,
+      app::hw::Display &display,
+      app::ui::Canvas &canvas,
+      app::hw::Recorder &recorder,
+      app::ui::Waterfall &waterfall);
   int Init();
   void Run();
 

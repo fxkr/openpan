@@ -32,10 +32,11 @@ class Recorder {
  public:
   const int num_samples = recorder_num_samples;
 
-  Recorder(app::debug::Debug &dbg,
-           VolatileBuffer<app::structs::Complex<int16_t>> &audio_buf,
-           app::debug::Counter &missed_audio_counter,
-           app::debug::Counter &late_audio_read_counter);
+  Recorder(
+      app::debug::Debug &dbg,
+      VolatileBuffer<app::structs::Complex<int16_t>> &audio_buf,
+      app::debug::Counter &missed_audio_counter,
+      app::debug::Counter &late_audio_read_counter);
 
   int Init();
 

@@ -38,11 +38,12 @@ void BSP_LCD_ClockConfig(LTDC_HandleTypeDef *hltdc, void *Params) {
   HAL_RCCEx_PeriphCLKConfig(&periph_clk_init_struct);
 }
 
-Display::Display(app::debug::Debug &dbg,
-                 VolatileTripleBuffer<uint8_t> &layer0,
-                 VolatileTripleBuffer<uint32_t> &layer1,
-                 CopyDMA &copy_dma,
-                 app::debug::Counter &ltdc_underrun_counter)
+Display::Display(
+    app::debug::Debug &dbg,
+    VolatileTripleBuffer<uint8_t> &layer0,
+    VolatileTripleBuffer<uint32_t> &layer1,
+    CopyDMA &copy_dma,
+    app::debug::Counter &ltdc_underrun_counter)
     : dbg(dbg),
       layer0(layer0),
       layer1(layer1),
