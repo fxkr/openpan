@@ -56,9 +56,12 @@ Application::Application(
       display(display),
       canvas(canvas),
       recorder(recorder),
-      waterfall(waterfall) {}
+      waterfall(waterfall) {
+}
 
-int Application::Init() { return 0; }
+int Application::Init() {
+  return 0;
+}
 
 void Application::Run() {
   process_audio_thread.start(callback(this, &Application::ProcessAudioThread));
@@ -188,12 +191,20 @@ void Application::HandleAudioInTransferComplete() {
   event_flags.set(ApplicationEventFlags::WakeupProcessAudioThread);
 }
 
-void Application::HandleAudioInError() { recorder.HandleAudioInError(); }
+void Application::HandleAudioInError() {
+  recorder.HandleAudioInError();
+}
 
-void Application::HandleLtdcUnderrun() { display.HandleUnderrun(); }
+void Application::HandleLtdcUnderrun() {
+  display.HandleUnderrun();
+}
 
-void Application::HandleLtdcReload() { display.HandleReload(); }
+void Application::HandleLtdcReload() {
+  display.HandleReload();
+}
 
-void Application::HandleLtdcIRQ() { display.HandleLtdcIRQ(); }
+void Application::HandleLtdcIRQ() {
+  display.HandleLtdcIRQ();
+}
 
 }  // namespace app

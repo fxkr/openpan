@@ -9,10 +9,15 @@
 namespace app::debug {
 
 Counter::Counter(app::debug::Debug& dbg, const char* name)
-    : dbg(dbg), name(name) {}
+    : dbg(dbg), name(name) {
+}
 
-void Counter::Increment() { __sync_fetch_and_add(&counter, 1); }
+void Counter::Increment() {
+  __sync_fetch_and_add(&counter, 1);
+}
 
-uint32_t Counter::GetValue() { return counter; }
+uint32_t Counter::GetValue() {
+  return counter;
+}
 
 }  // namespace app::debug

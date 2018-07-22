@@ -8,7 +8,8 @@
 
 namespace app::debug {
 
-Debug::Debug(Serial &console) : console(console) {}
+Debug::Debug(Serial &console) : console(console) {
+}
 
 void Debug::printf(const char *format, ...) {
   va_list argptr;

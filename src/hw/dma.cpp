@@ -8,7 +8,8 @@ namespace app::hw {
 
 static uint32_t zero_words[] = {0, 0, 0, 0};
 
-CopyDMA::CopyDMA() {}
+CopyDMA::CopyDMA() {
+}
 
 int CopyDMA::Init() {
   __HAL_RCC_DMA2_CLK_ENABLE();
@@ -75,7 +76,8 @@ int CopyDMA::CopyMax65kWordsUnsafe(
   return 0;
 }
 
-ZeroDMA::ZeroDMA() {}
+ZeroDMA::ZeroDMA() {
+}
 
 int ZeroDMA::Init() {
   __HAL_RCC_DMA2_CLK_ENABLE();

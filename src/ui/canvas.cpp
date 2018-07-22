@@ -13,7 +13,8 @@
 namespace app::ui {
 
 Canvas::Canvas(unsigned int size_x, unsigned int size_y)
-    : size_x(size_x), size_y(size_y) {}
+    : size_x(size_x), size_y(size_y) {
+}
 
 void Canvas::SetBuffer(app::hw::VolatileBuffer<uint32_t> &new_buffer) {
   buffer = &new_buffer;

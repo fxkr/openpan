@@ -28,7 +28,8 @@ Recorder::Recorder(
       lower_half_buffer(audio_buf.LowerHalf()),
       upper_half_buffer(audio_buf.UpperHalf()),
       missed_audio_counter(missed_audio_counter),
-      late_audio_read_counter(late_audio_read_counter) {}
+      late_audio_read_counter(late_audio_read_counter) {
+}
 
 int Recorder::Init() {
   // WM8994 spec, register 0210h (AIF1 Rate) / 0211h (AIF2 Rate):
@@ -84,7 +85,9 @@ app::structs::Complex<float32_t> *Recorder::Read() {
   return sig_buffer;
 }
 
-void Recorder::HandleAudioInError() { crash(dbg); }
+void Recorder::HandleAudioInError() {
+  crash(dbg);
+}
 
 void Recorder::HandleHalfTransferComplete() {
   if (READ_BIT(dma_state, UPPER_HALF_READABLE_BIT)) {

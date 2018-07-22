@@ -48,7 +48,8 @@ Display::Display(
       layer0(layer0),
       layer1(layer1),
       copy_dma(copy_dma),
-      ltdc_underrun_counter(ltdc_underrun_counter) {}
+      ltdc_underrun_counter(ltdc_underrun_counter) {
+}
 
 int Display::Init() {
   crash_if_not(dbg, layer0.size == size_x * size_y * sizeof(uint32_t));
@@ -162,8 +163,12 @@ VolatileBuffer<uint8_t> &Display::GetBackground() {
   return layer0.GetBackBuffer();
 }
 
-void Display::HandleUnderrun() { ltdc_underrun_counter.Increment(); }
+void Display::HandleUnderrun() {
+  ltdc_underrun_counter.Increment();
+}
 
-void Display::HandleLtdcIRQ() { HAL_LTDC_IRQHandler(&hLtdcHandler); }
+void Display::HandleLtdcIRQ() {
+  HAL_LTDC_IRQHandler(&hLtdcHandler);
+}
 
 }  // namespace app::hw

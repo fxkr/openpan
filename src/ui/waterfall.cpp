@@ -7,7 +7,8 @@ Waterfall::Waterfall(
     app::hw::CopyDMA &copy_dma,
     unsigned int size_x,
     unsigned int size_y)
-    : buffer(buffer), copy_dma(copy_dma), size_x(size_x), size_y(size_y) {}
+    : buffer(buffer), copy_dma(copy_dma), size_x(size_x), size_y(size_y) {
+}
 
 int Waterfall::Render(app::hw::VolatileBuffer<uint8_t> &output) {
   if (0 != CopyLines(output, 0, size_y - line, line)) {
