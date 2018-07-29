@@ -133,3 +133,20 @@ void HAL_LTDC_ErrorCallback(LTDC_HandleTypeDef *hltdc) {
     }
   }
 }
+
+extern "C" void EXTI15_10_IRQHandler(void) {
+  led = !led;
+  global_dbg->printf("#");
+  if (__HAL_GPIO_EXTI_GET_IT(KEY_BUTTON_PIN) != RESET) {
+    __HAL_GPIO_EXTI_CLEAR_IT(KEY_BUTTON_PIN);
+    HAL_GPIO_EXTI_IRQHandler(KEY_BUTTON_PIN);
+  }
+  if (__HAL_GPIO_EXTI_GET_IT(TS_INT_PIN) != RESET) {
+    __HAL_GPIO_EXTI_CLEAR_IT(TS_INT_PIN);
+    HAL_GPIO_EXTI_IRQHandler(TS_INT_PIN);
+  }
+  if (__HAL_GPIO_EXTI_GET_IT(AUDIO_IN_INT_GPIO_PIN) != RESET) {
+    __HAL_GPIO_EXTI_CLEAR_IT(AUDIO_IN_INT_GPIO_PIN);
+    HAL_GPIO_EXTI_IRQHandler(AUDIO_IN_INT_GPIO_PIN);
+  }
+}

@@ -58,6 +58,9 @@ int Display::Init() {
   if (LCD_OK != BSP_LCD_Init()) {
     return 1;
   }
+  if (TS_OK != BSP_TS_Init(size_x, size_y)) {
+    return 1;
+  }
 
   crash_if_not(dbg, size_x == BSP_LCD_GetXSize());
   crash_if_not(dbg, size_y == BSP_LCD_GetYSize());
@@ -100,7 +103,6 @@ int Display::Init() {
   HAL_LTDC_ConfigLayer(&hLtdcHandler, &layer_cfg, 1);
 
   // Configure initial framebuffers
-  BSP_LCD_DisplayOn();
   HAL_LTDC_SetAddress_NoReload(&hLtdcHandler, layer0.GetFrontBuffer().addr, 0);
   HAL_LTDC_SetAddress_NoReload(&hLtdcHandler, layer1.GetFrontBuffer().addr, 1);
   HAL_LTDC_Reload(&hLtdcHandler, LTDC_RELOAD_IMMEDIATE);
@@ -113,9 +115,19 @@ int Display::Init() {
     return 1;
   }
 
+  if (TS_OK != BSP_TS_ITConfig()) {
+    return 1;
+  }
+
   // LTDC interrupts needed for buffer flipping
   HAL_NVIC_SetPriority(LTDC_IRQn, 0xE, 0);
   HAL_NVIC_EnableIRQ(LTDC_IRQn);
+
+  // Touchscreen interrupts
+  HAL_NVIC_SetPriority(TS_INT_EXTI_IRQn, 0x2, 0);
+  HAL_NVIC_EnableIRQ(TS_INT_EXTI_IRQn);
+
+  BSP_LCD_DisplayOn();
 
   __HAL_LTDC_ENABLE_IT(&hLtdcHandler, LTDC_IT_FU);
 

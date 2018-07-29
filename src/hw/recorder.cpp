@@ -18,6 +18,8 @@ static const uint32_t UPPER_HALF_READABLE_BIT = 1 << 1;
 static const uint32_t BOTH_HALF_READABLE_BITS =
     LOWER_HALF_READABLE_BIT | UPPER_HALF_READABLE_BIT;
 
+extern "C" void EXTI15_10_IRQHandler(void);
+
 Recorder::Recorder(
     app::debug::Debug &dbg,
     VolatileBuffer<app::structs::Complex<int16_t>> &audio_buf,
@@ -46,6 +48,16 @@ int Recorder::Init() {
           (uint16_t *)buffer.addr, dma_double_buffer_num_halfwords)) {
     return 1;
   }
+
+  // BSP_AUDIO_IN_MspInit overrides interrupt config.
+  // Revert, because we're sharing it with the touchscreen and the button.
+  // See AUDIO_IN_INT_IRQHandler for what handler needs to do for audio.
+  IRQn_Type irqn = (IRQn_Type)(AUDIO_IN_INT_IRQ);
+  NVIC_ClearPendingIRQ(irqn);
+  NVIC_DisableIRQ(irqn);
+  NVIC_SetPriority(irqn, AUDIO_IN_IRQ_PREPRIO);
+  NVIC_SetVector(irqn, (uint32_t)EXTI15_10_IRQHandler);
+  NVIC_EnableIRQ(irqn);
 
   return 0;
 }
