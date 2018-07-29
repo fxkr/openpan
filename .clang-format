@@ -4,3 +4,4 @@ Language: Cpp
 BinPackArguments: false
 BinPackParameters: false
 AlignAfterOpenBracket: AlwaysBreak
+AllowShortFunctionsOnASingleLine: None
