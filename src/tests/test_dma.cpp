@@ -48,7 +48,7 @@ void test_copy_dma(app::debug::Debug& dbg) {
   }
 
   // Zero it
-  CopyDMA copy_dma;
+  app::hw::CopyDMA copy_dma;
   crash_if(dbg, 0 != copy_dma.Init());
   crash_if(
       dbg,
@@ -88,7 +88,7 @@ void test_zero_dma(app::debug::Debug& dbg) {
   }
 
   // Zero it
-  ZeroDMA zero_dma;
+  app::hw::ZeroDMA zero_dma;
   crash_if(dbg, 0 != zero_dma.Init());
   crash_if(
       dbg, 0 != zero_dma.ZeroWordsUnsafe(zero_area_addr, dma_test_area_words));

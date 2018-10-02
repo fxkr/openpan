@@ -5,6 +5,7 @@
 
 #include "Drivers/BSP/STM32746G-Discovery/stm32746g_discovery_audio.h"
 #include "Drivers/BSP/STM32746G-Discovery/stm32746g_discovery_lcd.h"
+#include "Drivers/BSP/STM32746G-Discovery/stm32746g_discovery_sdram.h"
 #include "Drivers/BSP/STM32746G-Discovery/stm32746g_discovery_ts.h"
 
 #include "application.h"
